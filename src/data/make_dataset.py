@@ -96,9 +96,8 @@ def create_new_columns_users(df):
     # Create new columns
     df["year_acc"] = df["Num_Acc"].astype(str).apply(lambda x: x[:4]).astype(int)
     df["victim_age"] = df["year_acc"] - df["an_nais"]
-    for i in df["victim_age"]:
-        if (i > 120) | (i < 0):
-            df["victim_age"].replace(i, np.nan)
+    impossible_age = (df["victim_age"] > 120) | (df["victim_age"] < 0)
+    df.loc[impossible_age, "victim_age"] = np.nan
     df.drop(['an_nais'], inplace=True, axis=1)
     return df
 
@@ -110,7 +109,7 @@ def create_new_columns_caract(df):
 
 def replace_names_users(df):
     # Replace names
-    df["grav"].replace([1, 2, 3, 4], [1, 3, 4, 2], inplace=True)
+    df["grav"] = df["grav"].replace([1, 2, 3, 4], [1, 3, 4, 2])
     return df
 
 def replace_names_caract(df):
@@ -140,7 +139,7 @@ def group_modalities_caract(df):
 def group_modalities_veh(df):
     catv_value = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 50, 60, 80, 99]
     catv_value_new = [0, 1, 1, 2, 1, 1, 6, 2, 5, 5, 5, 5, 5, 4, 4, 4, 4, 4, 3, 3, 4, 4, 1, 1, 1, 1, 1, 6, 6, 3, 3, 3, 3, 1, 1, 1, 1, 1, 0, 0]
-    df['catv'].replace(catv_value, catv_value_new, inplace=True)
+    df['catv'] = df['catv'].replace(catv_value, catv_value_new)
     return df
 
 def merge_datasets(df_users, df_veh, df_places, df_caract):
@@ -162,7 +161,7 @@ def add_new_columns(df, nb_victim, nb_vehicules):
 
 def modif_target_variable(df):
     # Modify target variable
-    df['grav'].replace([2, 3, 4], [0, 1, 1], inplace=True)
+    df['grav'] = df['grav'].replace([2, 3, 4], [0, 1, 1])
     return df
 
 def replace_values(df):
