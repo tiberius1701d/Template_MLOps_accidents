@@ -1,0 +1,22 @@
+[project]
+name = "template-mlops-accidents"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Tobias Preusser", email = "tobias.preusser75@gmail.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "dvc[all,gdrive]>=3.67.1",
+    "pandas>=3.0.6",
+    "pyopenssl>=24.2.1",
+    "scikit-learn>=1.9.1",
+]
+
+[project.scripts]
+template-mlops-accidents = "template_mlops_accidents:main"
+
+[build-system]
+requires = ["uv_build>=0.12.5,<0.13.0"]
+build-backend = "uv_build"
